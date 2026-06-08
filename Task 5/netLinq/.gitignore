@@ -1,0 +1,26 @@
+# Android / Gradle
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.ap_
+*.aab
+
+# Kotlin
+.kotlin/
+
+# Android Studio
+*.hprof
+
+# Keystore (never commit)
+*.jks
+*.keystore
+
+# Secrets
+local.properties

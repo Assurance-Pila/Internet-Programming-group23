@@ -1,0 +1,609 @@
+NETLINQ — IMPLEMENTATION PROGRESS REPORT
+Internet Programming, Group 23
+Document purpose: Team handoff — implementation, UI/UX, architecture, status
+Aligned to: SRS.md (Software Requirements Specification)
+Companion doc: docs/UI_UX_DESIGN_DOCUMENT.md (design choices, flows, rationale)
+Last updated: June 2026
+
+
+================================================================================
+1. PROJECT OVERVIEW
+================================================================================
+
+NetLinq is a native Android application for Quality of Experience (QoE) mobile
+network monitoring in Cameroon. The app combines automatic network readings
+(signal, speed, connection type) with user star ratings to capture how mobile
+internet really feels on the ground.
+
+Package name:        com.netlinq
+Minimum Android:     8.0 (API 26)
+Target / compile SDK: 35
+Version:             1.0.0 (versionCode 1)
+Language:            Kotlin
+UI framework:        Jetpack Compose with Material 3
+Backend:             Supabase (PostgreSQL, REST, Row Level Security)
+Local storage:       Room Database (offline-first)
+Background tasks:    WorkManager
+Dependency injection: Hilt (Dagger)
+
+
+================================================================================
+2. IDENTITY AND ACCESS MODEL (OPTION 1 — CONFIRMED)
+================================================================================
+
+Decision: Anonymous subscriber model on mobile. No sign-up. No login. No email
+or password. The SRS reference to "login/setup screens" is implemented as a
+setup and onboarding flow only.
+
+How attribution works without sign-up:
+  - On first launch, a random UUID is generated and stored in DataStore.
+  - All network metrics and feedback on that device link to this UUID locally.
+  - Before Supabase upload, the UUID is hashed with SHA-256 → device_hash.
+  - The cloud only sees device_hash, never the raw UUID or personal identity.
+  - Same installation = same anonymous contributor in aggregated data.
+
+Implications:
+  - Reinstall or new phone = new anonymous contributor.
+  - Personal dashboard shows this device's history from local Room.
+  - Operators see trends across many device_hash values, not named individuals.
+
+Aligns with: SRS FR1, Section 8.3, Implementation Decision Section 11.
+
+
+================================================================================
+3. ROLE-BASED ACCESS (FUTURE — NOT ON MOBILE)
+================================================================================
+
+Mobile app (NetLinq Android):
+  - Subscribers only. Anonymous setup. No role selection at onboarding.
+  - No admin or operator management on the phone in v1.
+  - No operator analytics or debug tools in the consumer-facing UI.
+
+Backend (Supabase) — future:
+  - Roles (admin, operator) assigned by backend administrators only.
+  - Users cannot self-promote.
+
+Future desktop web dashboard — planned:
+  - Admins: system maintenance, data integrity, role management.
+  - Operators (e.g. MTN, Orange): aggregated analytics, trends, exports.
+  - Authenticated web login separate from mobile anonymous flow.
+
+Note: OperatorAnalyticsScreen.kt remains in the codebase as a coursework mock
+for FR11 reference only. It is not reachable from the subscriber app UI.
+
+
+================================================================================
+4. TECHNOLOGY STACK AND UI IMPLEMENTATION APPROACH
+================================================================================
+
+Core Android:
+  Kotlin 2.0.21, AGP 8.7.3, Java 17, KSP for Room and Hilt
+
+UI layer:
+  Jetpack Compose — entire UI is declarative; screen layouts in Kotlin
+  Material 3 — components, color scheme, typography, bottom sheets, switches
+  Navigation Compose — onboarding flow + main app tab navigation
+  Material Icons Extended — cell tower, history, feedback, settings, etc.
+  Compose Previews (@Preview) — design review without running on device
+  Custom brand assets — cell tower logo (PNG) for launcher and onboarding
+
+Architecture pattern (SRS Section 3):
+  MVVM with Clean Architecture-style layers:
+    Presentation — Compose screens, ViewModels, navigation, components
+    Domain       — NetworkMetric, QoeFeedback, NetworkType, FeedbackNetworkLink
+    Data         — Room, repositories, Supabase API, DataStore preferences
+    Monitoring   — signal, speed, network type collectors, event detection
+    Sync         — WorkManager periodic upload, 7-day purge
+
+State management:
+  ViewModels expose StateFlow / SharedFlow
+  UI observes via collectAsState() in Compose
+  User actions call ViewModel functions; UI remains stateless where possible
+
+Edge-to-edge:
+  MainActivity uses enableEdgeToEdge()
+  statusBarsPadding() on onboarding and all main tab screens
+  Status bar and navigation bar colours match theme background/surface
+  Light/dark status and navigation bar icons adapt to selected theme
+
+
+================================================================================
+5. UI/UX DESIGN SYSTEM
+================================================================================
+(Full design rationale and user flows: docs/UI_UX_DESIGN_DOCUMENT.md)
+
+5.1 Design principles
+---------------------
+  - Simple and self-explanatory: every screen has a title + short subtitle
+  - Plain language for everyday users (not engineers):
+      "Automatic readings" and "your ratings" — not objective/subjective/QoE
+  - One primary action per area (Continue, Check now, Submit, Open dashboard)
+  - Privacy communicated upfront — no account, anonymous ID explained
+  - Feedback completable in under 30 seconds (quick prompt sheet)
+  - Cards over flat lists for scannable information hierarchy
+  - Quality communicated with colour and labels (Good/Fair/Poor, Strong/OK/Weak)
+  - No debug or operator demo entry points in the subscriber UI
+  - User-controlled appearance: System / Light / Dark in Settings
+
+5.2 Typography (ui/theme/Type.kt)
+----------------------------------
+  Font family: System default (Roboto on most Android devices).
+
+  Scale (NetLinqTypography):
+    headlineLarge   32sp, Bold    — app title (onboarding)
+    headlineMedium  26sp, Bold    — hero values ("4G", "Tap Check now below")
+    titleLarge      20sp, SemiBold — screen section titles
+    titleMedium     16sp, SemiBold — card titles
+    bodyLarge       16sp, Normal   — intro copy
+    bodyMedium      14sp, Normal   — descriptions
+    labelLarge      14sp, Medium   — badges, step labels
+    labelMedium     12sp, Medium   — captions, nav labels
+
+5.3 Colour palette (ui/theme/Color.kt)
+---------------------------------------
+  Brand (teal):
+    TealPrimary  #14B8A6
+    TealLight    #5EEAD4
+    TealDark     #0D9488
+
+  Neutrals (slate):
+    Slate900  #0F172A   (dark background)
+    Slate800  #1E293B   (dark surface / cards)
+    Slate700  #334155   (dark surface variant)
+    Slate600  #475569   (secondary text light mode)
+    Slate400  #94A3B8   (secondary text dark mode)
+    Slate200  #E2E8F0   (outlines)
+    Slate50   #F8FAFC   (light background)
+
+  Quality indicators:
+    QualityGood  #22C55E  (green)
+    QualityFair  #F59E0B  (amber)
+    QualityPoor  #EF4444  (red)
+
+5.4 Light and dark themes (ui/theme/Theme.kt + Settings)
+--------------------------------------------------------
+  Light mode:
+    Background: Slate50, Surface: White
+    Primary: TealDark, onPrimary: White
+
+  Dark mode:
+    Background: Slate900, Surface: Slate800
+    Primary: TealLight, onPrimary: Slate900
+
+  Theme selection (AppPreferences.themeMode):
+    System default — follows phone setting (isSystemInDarkTheme)
+    Light          — always light
+    Dark           — always dark
+  Choice saved in DataStore; applies immediately app-wide via MainViewModel.
+
+5.5 Layout and spacing conventions
+-----------------------------------
+  Screen horizontal padding:     20–24 dp
+  Top safe area:                 statusBarsPadding() on all main screens
+  Vertical section spacing:      16–20 dp
+  Card corner radius:            20 dp (NetLinqCard)
+  Card elevation:                3 dp
+  Hero card:                     subtle teal vertical gradient background
+  Empty hero state:              centred content, larger icon, no placeholder badge
+  Bottom nav:                    custom NetLinqBottomBar (4 tabs)
+  Touch targets:                 Star ratings 36–40 dp; switches standard M3
+
+5.6 Shared UI components (presentation/components/NetLinqComponents.kt)
+------------------------------------------------------------------------
+  NetLinqCard          Rounded elevated card container
+  NetLinqBottomBar     Custom bottom nav — teal selected state, surface background
+  SectionHeader        Title + optional subtitle block
+  QualityBadge         Good / Fair / Poor coloured pill
+  MetricStatChip       Compact value + label (Signal, Speed, Type)
+  StarRatingBar        5-star row for quick feedback
+  StarRatingRow        Labelled star row with description (feedback form)
+  TrendChartPlaceholder Bar chart for speed trend
+  StepIndicator        Horizontal progress bar for onboarding steps
+
+5.7 Quality display logic (presentation/util/NetworkQuality.kt)
+----------------------------------------------------------------
+  Internal scoring uses dBm and ms; user-facing hero shows:
+    Signal: Strong / OK / Weak (not raw dBm on main dashboard)
+    Speed:  value in ms with "Speed" label (not "Latency")
+    Overall badge: Good / Fair / Poor (worst of signal + speed)
+
+5.8 Brand identity
+------------------
+  Logo: cell tower with signal waves (green/gold/teal) — Cameroon-relevant,
+        professional, clear network meaning.
+  Uses:
+    - App launcher icon (adaptive icon, API 26+; mipmap fallbacks all densities)
+    - Onboarding welcome screen (120 dp)
+    - Dashboard bottom-nav tab uses CellTower icon (brand tie-in)
+  Assets:
+    res/drawable/ic_netlinq_logo.png
+    res/mipmap-*/ic_launcher.png + ic_launcher_round.png
+    res/mipmap-anydpi-v26/ic_launcher.xml (adaptive)
+
+
+================================================================================
+6. SCREENS — DETAILED UI/UX SPECIFICATION
+================================================================================
+
+6.1 Onboarding (5-step flow)
+----------------------------
+  Files: presentation/onboarding/, steps/OnboardingSteps.kt
+
+  Step 1 — Welcome
+    - NetLinq logo image (cell tower brand asset)
+    - "NetLinq" headline + "See how your mobile internet really feels"
+    - Highlight card: "No sign-up required" — random device ID, no personal data
+
+  Step 2 — How it works
+    - Four feature cards: Automatic checks, Your ratings, Works offline,
+      Your privacy (plain language throughout)
+
+  Step 3 — Your consent
+    - Three required checkboxes (SRS Section 8.1):
+        Network monitoring, Feedback notifications, Share readings
+    - User can change settings later
+
+  Step 4 — App permissions
+    - Plain-language cards: phone state, location (signal only), notifications,
+      network access (no QoE/latency jargon)
+
+  Step 5 — Ready
+    - Device ID preview (first 8 chars + ellipsis)
+    - "Open dashboard" primary button
+
+  Layout: statusBarsPadding() + extra top padding (not squashed under status bar)
+  Navigation: Continue / Back, StepIndicator (5 segments)
+
+6.2 Dashboard
+-------------
+  File: presentation/home/HomeScreen.kt
+
+  - SectionHeader: "Network dashboard" + automatic readings subtitle
+  - Hero card:
+      Empty: centred "Tap Check now below" + helper text, teal gradient
+      Filled: "Right now", network type, quality badge, Signal/Speed/Type chips
+  - Actions: "Check now" (filled teal) + "Sync" (outlined)
+  - Status message after check or sync
+  - Pending upload card when unsynced readings exist
+  - Speed trend bar chart
+  - Recent readings list with quality badge
+  - Quick rating prompts info card (no debug preview link)
+
+  Aligns with: FR4, FR5, FR6, FR10
+
+6.3 History
+-----------
+  File: presentation/history/HistoryScreen.kt
+
+  - Title: "Your history" — automatic readings and star ratings over time
+  - Average satisfaction score (when ratings exist)
+  - Speed trend and signal trend bar charts
+  - Network type distribution
+  - Recent feedback with linked network context (trigger, type, speed, reading time)
+  - Recent readings list
+
+  Data source: local Room only
+
+6.4 Feedback form (full ratings — FR2)
+----------------------------------------
+  File: presentation/feedback/FeedbackScreen.kt
+
+  Five categories with label + description + 5-star row:
+    Overall experience, Internet responsiveness, Streaming, Call quality,
+    General satisfaction
+  Live network context card (e.g. "4G, weak signal, 490 ms")
+  Optional notes; Submit disabled until all five rated
+  Success screen with thank-you message
+
+6.5 Feedback prompt (quick rating — triggered — FR3)
+-----------------------------------------------------
+  File: presentation/feedback/FeedbackPrompt.kt
+
+  Modal bottom sheet:
+    - Trigger reason (plain language): signal dropped, network changed,
+      internet slowed down, connection lost
+    - Single overall star rating
+    - Submit / Rate in detail / Not now
+  Cooldown: 5 / 15 / 30 minutes (Settings frequency)
+
+  Foreground: bottom sheet when app open
+  Background: local system notification; tap opens sheet with linked reading data
+
+6.6 Settings
+------------
+  File: presentation/settings/SettingsScreen.kt
+
+  Section order (priority — appearance is not top):
+    1. Network monitoring + WiFi-only sync
+    2. Monitoring triggers (Signal drop, Network change, Slow internet,
+       Connection loss)
+    3. Feedback frequency (Less often / Normal / More often)
+    4. Appearance — System default / Light / Dark
+    5. Privacy summary
+
+  Removed from subscriber UI (not appropriate for normal users):
+    - Preview prompts (debug) section
+    - View operator analytics demo button
+    - Any BuildConfig.DEBUG-only settings entry points
+
+6.7 Operator analytics (code only — not in app UI)
+---------------------------------------------------
+  File: presentation/operator/OperatorAnalyticsScreen.kt
+
+  Mock FR11 coursework reference. Not linked from Settings or navigation.
+  Real operator views planned for future authenticated web dashboard.
+
+6.8 App shell and navigation
+----------------------------
+  Files: presentation/shell/MainScaffold.kt, components/NetLinqComponents.kt
+
+  Custom NetLinqBottomBar (replaces default Material purple/lavender tint):
+    - Surface background matching cards
+    - Teal selected icon/text + soft teal pill indicator
+    - Subtle top divider; navigation bar colour matches surface
+
+  Bottom navigation (4 tabs):
+    Dashboard  (CellTower icon — brand tie-in)
+    History      (History icon)
+    Feedback     (RateReview icon)
+    Settings     (Settings icon)
+
+  Onboarding → Main (tabs) after setup complete
+
+
+================================================================================
+7. ARCHITECTURE AND FOLDER STRUCTURE
+================================================================================
+
+netLinq/
+  SRS.md
+  README.md
+  docs/
+    IMPLEMENTATION_REPORT.txt       (this file)
+    UI_UX_DESIGN_DOCUMENT.md        (design choices, flows, report companion)
+    SUPABASE_SETUP.md
+  app/src/main/
+    res/
+      drawable/                     ic_netlinq_logo.png, adaptive icon XML
+      mipmap-*/                     launcher icons (all densities)
+      mipmap-anydpi-v26/            adaptive icon definitions
+    java/com/netlinq/
+      MainActivity.kt               App entry, theme mode, intent → prompt
+      NetLinqApplication.kt         Hilt + WorkManager
+
+      ui/theme/                     Color, Type, Theme (light/dark)
+
+      presentation/
+        MainViewModel.kt            Routing + themeMode StateFlow
+        navigation/NetLinqNavGraph.kt
+        shell/MainScaffold.kt
+        onboarding/
+        home/                       Dashboard
+        history/
+        feedback/                   Form, prompt sheet, ViewModel
+        settings/                   Settings + theme mode
+        operator/                   Mock only (not in nav)
+        monitoring/PromptEventViewModel.kt
+        components/NetLinqComponents.kt  (NetLinqCard, NetLinqBottomBar, etc.)
+        util/NetworkQuality.kt
+
+      domain/model/
+        NetworkMetric, QoeFeedback, NetworkType, FeedbackNetworkLink
+
+      data/
+        local/                      Room v2 (feedback linking columns)
+        remote/                     SupabaseApi, payloads
+        repository/
+        preferences/AppPreferences.kt  (themeMode, triggers, device ID)
+        mapper/EntityMappers.kt
+
+      monitoring/                   Collectors, degradation detector, manager
+      notifications/FeedbackNotificationHelper.kt
+      sync/                         SyncWorker, SyncScheduler
+      di/                           DatabaseModule (migration 1→2), NetworkModule
+
+
+================================================================================
+8. DATA AND BACKEND
+================================================================================
+
+Room (offline-first) — database version 2:
+  network_metrics
+    signal, speed (latency_ms), type, device info, recorded_at, synced
+
+  qoe_feedback
+    five ratings, trigger_event, notes, recorded_at, synced
+    network_metric_id      — links rating to exact reading row
+    metric_recorded_at     — timestamp of linked reading
+    signal_strength_snapshot, latency_ms_snapshot — copied at rating time
+
+Feedback-to-network linking:
+  - Event prompts carry metric ID + snapshot from reading that triggered them
+  - Manual Feedback tab submit links to latest reading at submit time
+  - Notification tap preserves metric data via intent extras
+  - Sync payload includes linking fields for Supabase upload
+
+Anonymous device ID:
+  UUID in DataStore → SHA-256 hash as device_hash on upload
+
+Supabase sync:
+  Retrofit REST, WorkManager periodic sync (WiFi-only default, every 15 min)
+  Manual Sync button on dashboard
+  7-day purge of synced local records
+  Credentials in local.properties (not committed)
+
+Notifications:
+  Local Android notifications (not remote FCM push)
+  Shown when network event detected and app is in background
+  Tap opens quick rating sheet with linked reading context
+
+
+================================================================================
+9. SRS FUNCTIONAL REQUIREMENTS — STATUS
+================================================================================
+
+FR1  Anonymous device identifier           DONE
+FR2  Subjective QoE ratings (5 categories) DONE (full form + quick prompt)
+FR3  Event-triggered feedback prompts      DONE (detection + sheet + local notifications)
+FR4  Signal strength via TelephonyManager  DONE
+FR5  Network type 2G–5G/WiFi               DONE
+FR6  Periodic speed measurement            PARTIAL (60s poll + on-demand Check now)
+FR7  Local Room storage                    DONE (v2 with feedback linking)
+FR8  Offline operation                     DONE
+FR9  Supabase sync                         DONE (manual + WorkManager)
+FR10 Personal QoE dashboard                DONE (dashboard + history)
+FR11 Operator aggregated reports           PARTIAL (mock code only; web dashboard future)
+FR12 Purge synced records after 7 days     DONE
+
+
+================================================================================
+10. PHASE COMPLETION LOG
+================================================================================
+
+Phase A — Architecture documentation
+  [DONE] Anonymous model (Section 2)
+  [DONE] Role model (Section 3)
+
+Phase B — Core UI and local behaviour
+  [DONE] Event-driven prompts (NetworkMonitoringManager, degradation detector)
+  [DONE] Local system notifications with tap-to-open prompt
+  [DONE] History tab with signal/speed charts and ratings from Room
+  [DONE] Operator analytics mock (code only)
+  [DONE] Accessibility: content descriptions on nav, switches
+
+Phase C — Initial delivery
+  [DONE] Implementation report
+  [DONE] Debug APK: app/build/outputs/apk/debug/app-debug.apk
+  [DONE] assembleDebug — BUILD SUCCESSFUL
+
+Phase D — UI/UX polish and subscriber-facing refinement
+  [DONE] Plain language pass (no objective/subjective/QoE/dBm in user copy)
+  [DONE] Dashboard empty hero centred; status bar padding on all screens
+  [DONE] Hero card teal gradient; signal shown as Strong/OK/Weak
+  [DONE] Feedback linked to specific network reading (Room v2 + snapshots)
+  [DONE] Debug UI removed from subscriber app:
+           - Operator analytics demo button (Settings)
+           - Preview prompts section (Settings)
+           - Preview a prompt link (Dashboard)
+  [DONE] Appearance in Settings: System / Light / Dark (saved, immediate apply)
+  [DONE] Appearance section moved to bottom of Settings (before Privacy)
+  [DONE] Custom NetLinqBottomBar — teal brand colours, not default M3 purple
+  [DONE] Dashboard nav tab: CellTower icon
+  [DONE] Brand logo: launcher adaptive icon + onboarding welcome screen
+  [DONE] Release build fix: launcher PNGs regenerated as valid PNG (not JPEG)
+  [DONE] UI/UX design document: docs/UI_UX_DESIGN_DOCUMENT.md
+  [DONE] assembleRelease — BUILD SUCCESSFUL
+
+
+================================================================================
+11. UI/UX POLISH CHANGELOG (PHASE D SUMMARY)
+================================================================================
+
+See docs/UI_UX_DESIGN_DOCUMENT.md for full rationale. Key implementation changes:
+
+Copy and language
+  - Replaced technical terms with everyday language across all screens
+  - Removed em dashes from user-facing text
+  - "Latency" → "Speed"; "QoE history" → "Your history"
+  - Onboarding and permissions rewritten for non-technical users
+
+Layout and visual polish
+  - statusBarsPadding() on onboarding, dashboard, history, feedback, settings
+  - Dashboard empty state: centred "Tap Check now below", no broken "—" badge
+  - Hero card gradient; card elevation 3 dp
+  - Signal chips: Strong / OK / Weak instead of raw dBm on hero
+
+Settings (subscriber UI only)
+  - Order: Monitoring → Triggers → Frequency → Appearance → Privacy
+  - Appearance: System default / Light / Dark (AppPreferences.themeMode)
+  - Removed: preview prompts, operator demo button
+
+Navigation
+  - NetLinqBottomBar: surface background, teal selected state, soft pill indicator
+  - System navigation bar colour matches app surface in both themes
+  - Dashboard tab uses cell tower icon
+
+Brand
+  - Cell tower logo as adaptive launcher icon (res/mipmap, res/drawable)
+  - Logo on onboarding welcome screen
+
+Data integrity (UX-facing)
+  - Ratings store network_metric_id + signal/speed snapshot + metric timestamp
+  - Feedback screen shows live network context; History shows linked reading info
+
+Removed from consumer app
+  - All debug preview entry points
+  - Operator analytics navigation from Settings
+
+
+================================================================================
+12. COMPOSE PREVIEWS (ANDROID STUDIO DESIGN VIEW)
+================================================================================
+
+  OnboardingPreviews.kt    — all 5 onboarding steps
+  FeedbackPromptPreviews.kt — prompt sheet variants
+  ScreenPreviews.kt        — dashboard, feedback form, settings
+
+Open in Android Studio Split or Design view to review without a device.
+
+
+================================================================================
+13. MANUAL TEST CHECKLIST
+================================================================================
+
+1.  Onboarding: 5 steps, logo on welcome, no sign-up, permissions granted
+2.  Dashboard: Check now shows reading; empty state centred before first reading
+3.  Dashboard: Sync updates status (Supabase credentials required for upload)
+4.  History: speed/signal charts and ratings after use
+5.  Feedback: full form submits; live network context shown; success screen
+6.  Quick prompt: trigger or notification → stars → saved with linked reading
+7.  Settings: monitoring, triggers, frequency toggles work
+8.  Settings → Appearance: System / Light / Dark applies immediately
+9.  Settings: no preview prompts or operator demo visible
+10. Bottom nav: teal selected state in light and dark (not default purple)
+11. Launcher icon: cell tower logo on home screen
+12. Light and dark: readable in both modes via Settings appearance
+
+
+================================================================================
+14. REMAINING WORK
+================================================================================
+
+- Production release signing (keystore) for distributable signed APK
+- Live operator data from Supabase (authenticated web dashboard, not mobile)
+- Desktop admin/operator portal with backend-assigned roles
+- Remote push notifications (FCM) if required — currently local notifications only
+- Automated unit and integration tests
+- Battery optimization tuning on diverse OEM devices
+- Commit netLinq folder to group git repository
+- Optional: splash screen with brand logo on cold start
+
+
+================================================================================
+15. BUILD ARTIFACTS
+================================================================================
+
+Debug APK (team testing):
+  File:    app/build/outputs/apk/debug/app-debug.apk
+  Suggest: NetLinq-v1.0.0-debug.apk on Desktop
+
+Release APK (unsigned):
+  File:    app/build/outputs/apk/release/app-release-unsigned.apk
+  Note:    Requires signing before Play Store or most device installs
+
+Build commands:
+  ./gradlew assembleDebug    — debug APK
+  ./gradlew assembleRelease  — release APK (unsigned)
+
+Requirements: Android 8.0+
+Supabase:     Valid local.properties needed for sync testing
+
+Suggested message to team:
+  "NetLinq v1.0.0. No sign-up — complete onboarding, try Dashboard, History,
+   Feedback, and Settings. Toggle light/dark under Settings → Appearance.
+   See IMPLEMENTATION_REPORT.txt and UI_UX_DESIGN_DOCUMENT.md for details."
+
+
+================================================================================
+END OF REPORT
+================================================================================

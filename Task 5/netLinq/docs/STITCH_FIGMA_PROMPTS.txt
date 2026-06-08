@@ -1,0 +1,598 @@
+NETLINQ — STITCH / FIGMA DESIGN PROMPTS
+For: Team designer recreating implemented screens in Figma
+Tool: Google Stitch (prompt each screen; use Global Prompt first for consistency)
+App: NetLinq — QoE Mobile Network Monitoring (Cameroon)
+Platform: Android mobile, 390 x 844 px frame (or standard Android phone)
+
+================================================================================
+HOW TO USE THIS DOCUMENT
+================================================================================
+
+1. Run PROMPT 0 (Global Design System) first in Stitch — save as style reference.
+2. Run onboarding prompts 1–5 in order (same flow as the app).
+3. Run main app prompts with bottom navigation visible where noted.
+4. Use SAMPLE DATA section for realistic placeholder values.
+5. Create dark mode variants by re-running each prompt with dark theme colours.
+6. Name Figma frames exactly as listed under FRAME NAME for dev handoff.
+
+APP FLOW (must match in Figma prototype):
+  First launch → Onboarding Step 1 → 2 → 3 → 4 → 5 → Main App (Dashboard)
+  Main App tabs: Dashboard | History | Feedback | Settings
+  Settings → Operator Analytics Demo (push screen, no bottom nav)
+  Any tab → Quick Feedback bottom sheet (overlay)
+  Feedback tab → Submit → Success state
+
+
+================================================================================
+PROMPT 0 — GLOBAL DESIGN SYSTEM (run first)
+================================================================================
+
+Design a mobile design system for "NetLinq", an Android QoE network monitoring
+app for Cameroon. Material Design 3 inspired, clean, trustworthy, not flashy.
+
+COLOURS:
+  Primary teal: #0D9488 (light mode buttons), #5EEAD4 (dark mode accent)
+  Background light: #F8FAFC | Surface light: #FFFFFF
+  Background dark: #0F172A | Surface dark: #1E293B
+  Text primary light: #0F172A | Text secondary light: #475569
+  Text primary dark: #F8FAFC | Text secondary dark: #94A3B8
+  Quality Good: #22C55E | Fair: #F59E0B | Poor: #EF4444
+
+TYPOGRAPHY (Roboto / system sans):
+  Headline Large: 32sp Bold — app titles
+  Headline Medium: 26sp Bold — hero values
+  Title Large: 20sp SemiBold — section headers
+  Title Medium: 16sp SemiBold — card titles
+  Body Large: 16sp Regular — intro paragraphs
+  Body Medium: 14sp Regular — descriptions
+  Label Large: 14sp Medium — badges, labels
+  Label Medium: 12sp Medium — captions
+
+COMPONENTS:
+  - Cards: white/dark surface, 20px corner radius, subtle 2dp shadow
+  - Primary button: filled teal, white text, full width or half width, pill shape
+  - Outlined button: teal border, teal text
+  - Quality badge: pill shape, coloured text on 15% opacity tinted background
+  - Stat chip: 16px radius, tinted background 10% opacity, value bold on top
+  - Star rating: 5 stars, filled teal when selected, outline grey when empty
+  - Step indicator: 5 horizontal bars, 4px height, filled teal = completed
+  - Bottom nav: 4 items with icon + label, Material 3 style
+  - Bottom sheet: rounded top corners, drag handle, overlays main content
+
+SPACING: 20–24px screen padding, 16–20px between sections, 16px card inner padding.
+
+TONE: Privacy-first, anonymous (no login), professional, accessible, simple.
+
+
+================================================================================
+PROMPT 1 — ONBOARDING STEP 1: WELCOME
+================================================================================
+
+FRAME NAME: Onboarding / 01 Welcome
+
+Design an Android onboarding screen for NetLinq, step 1 of 5.
+
+TOP: Horizontal step progress bar — 5 segments, first segment filled teal,
+others light grey. Below it: small caption text "Step 1 of 5 · Welcome".
+
+CENTER (scrollable content):
+  - Large circle (88px) with light teal background (12% opacity), cell tower
+    icon inside in teal
+  - App name "NetLinq" in 32sp bold
+  - Subtitle "QoE network monitoring for Cameroon" in grey 16sp
+
+  - Highlight card (rounded 20px):
+      Title in teal: "No sign-up required"
+      Body: "Per our privacy design, you never create an account. NetLinq
+      assigns an anonymous device ID automatically — no name, email, or
+      phone number."
+
+  - Paragraph: "Help bridge the gap between operator network data and what
+    users actually experience on mobile networks across Cameroon."
+
+BOTTOM (fixed):
+  - Single full-width primary button "Continue" (teal filled)
+  - No Back button on step 1
+
+Style: light mode, clean, lots of whitespace, Material 3 Android.
+
+
+================================================================================
+PROMPT 2 — ONBOARDING STEP 2: HOW IT WORKS
+================================================================================
+
+FRAME NAME: Onboarding / 02 How It Works
+
+Android onboarding screen, step 2 of 5. Step bar: first 2 segments filled teal.
+Caption: "Step 2 of 5 · How it works".
+
+Section header:
+  Title: "How NetLinq works"
+  Subtitle: "Two types of data combine to show real Quality of Experience."
+
+Four stacked cards (icon left, text right, 28px teal icon):
+  1. Sensors icon — "Objective monitoring" — "Signal strength, network type
+     (2G–5G/WiFi), and latency — measured on your device."
+  2. Review/rate icon — "Subjective feedback" — "Quick star ratings on calls,
+     streaming, and overall satisfaction when issues appear."
+  3. Cloud-offline icon — "Offline-first" — "Data is stored locally first,
+     then synced anonymously when you have internet."
+  4. Shield icon — "Privacy by design" — "Uploaded records are anonymized.
+     Operators see aggregated trends, not your identity."
+
+BOTTOM: Outlined "Back" button (left half) + filled "Continue" (right half).
+
+Light mode, scrollable content area above fixed buttons.
+
+
+================================================================================
+PROMPT 3 — ONBOARDING STEP 3: CONSENT
+================================================================================
+
+FRAME NAME: Onboarding / 03 Consent
+
+Android onboarding, step 3 of 5. Progress: 3 of 5 bars filled.
+Caption: "Step 3 of 5 · Your consent".
+
+Section header:
+  Title: "Your consent"
+  Subtitle: "We only start after you agree to each of these — you stay in control."
+
+Three checkbox cards (unchecked state for design; checkbox left, text right):
+  1. "Network monitoring" — "Collect signal, latency, and connection type
+     while you use the app."
+  2. "Feedback notifications" — "Receive short prompts when network quality
+     changes or issues are detected."
+  3. "Anonymous data sync" — "Upload anonymized readings to help improve
+     network insights (WiFi by default)."
+
+Small info card: "You can stop monitoring or change sync settings anytime
+in Settings."
+
+BOTTOM: Back + Continue buttons. Continue is DISABLED (greyed) until all
+three checkboxes checked — show one variant with all checked and Continue
+enabled as separate frame if needed.
+
+Light mode Android.
+
+
+================================================================================
+PROMPT 4 — ONBOARDING STEP 4: PERMISSIONS
+================================================================================
+
+FRAME NAME: Onboarding / 04 Permissions
+
+Android onboarding, step 4 of 5. Progress: 4 of 5 filled.
+Caption: "Step 4 of 5 · Permissions".
+
+Section header:
+  Title: "App permissions"
+  Subtitle: "Each permission has a clear purpose. Nothing extra is requested."
+
+Four explanation cards (24px teal icon left):
+  1. Signal icon — "Phone state" — "Read signal strength and cellular network
+     type (2G, 3G, 4G, 5G)."
+  2. Location pin icon — "Location" — "Required by Android to access cell
+     tower signal information. We do not track your GPS position."
+  3. Bell icon — "Notifications" — "Show quick QoE feedback prompts when
+     network issues are detected."
+  4. WiFi icon — "Network access" — "Measure latency and sync anonymized
+     data when online."
+
+Above bottom buttons: full-width OUTLINED button "Grant permissions".
+
+BOTTOM: Back + Continue. Continue disabled until permissions granted.
+
+Optional second frame: "Permissions granted" teal label text shown above buttons.
+
+Light mode.
+
+
+================================================================================
+PROMPT 5 — ONBOARDING STEP 5: READY
+================================================================================
+
+FRAME NAME: Onboarding / 05 Ready
+
+Android onboarding final step, 5 of 5. All 5 progress bars filled teal.
+Caption: "Step 5 of 5 · Ready".
+
+CENTER aligned content:
+  - Circle 72px, light teal bg, phone icon inside teal
+  - Title: "You're ready"
+  - Subtitle: "Setup is complete. No account was created — that's intentional."
+
+  - Card:
+      Label: "Anonymous device ID"
+      Value: "a3f8b2c1…" in large bold 26sp
+      Note: "This ID is hashed before any upload. It cannot identify you
+      personally."
+
+  - Paragraph: "Next: your dashboard shows network readings. The Feedback
+    tab is for your subjective ratings."
+
+BOTTOM: Back + primary button "Open dashboard" (not "Continue").
+
+Light mode, celebratory but minimal — no confetti.
+
+
+================================================================================
+PROMPT 6 — MAIN SHELL / BOTTOM NAVIGATION
+================================================================================
+
+FRAME NAME: Components / Bottom Navigation
+
+Design Android bottom navigation bar for NetLinq with 4 tabs:
+  1. Dashboard — chart/analytics icon — label "Dashboard" — SELECTED (teal)
+  2. History — clock/history icon — label "History"
+  3. Feedback — rate review icon — label "Feedback"
+  4. Settings — gear icon — label "Settings"
+
+Material 3 NavigationBar: surface colour, selected item teal icon + label,
+unselected grey. Show above a blank content area. Light and dark variants.
+
+Create 4 additional frames showing each tab selected state.
+
+
+================================================================================
+PROMPT 7 — DASHBOARD (HOME TAB)
+================================================================================
+
+FRAME NAME: Main / Dashboard
+
+Android mobile screen with bottom nav (Dashboard tab selected).
+
+Use sample data:
+  Network: WiFi, Signal: -91 dBm, Latency: 931 ms, Quality: Fair (amber badge)
+
+SCROLLABLE content, 20px horizontal padding:
+
+1. Section header:
+   Title: "Network dashboard"
+   Subtitle: "Objective readings from your device — signal, speed, and
+   connection type."
+
+2. HERO CARD (centered content, 24px padding):
+   - Circle 72px with amber-tinted background, signal bars icon in amber
+   - Label: "Current experience"
+   - Large bold: "WiFi"
+   - Quality badge pill: "Fair" in amber (#F59E0B) on light amber background
+   - Row of 3 stat chips evenly spaced:
+       Signal: "-91 dBm" (amber) | Latency: "931 ms" (amber) | Type: "WiFi" (teal)
+
+3. Two buttons side by side (equal width):
+   Left FILLED: network-check icon + "Check now"
+   Right OUTLINED: cloud-sync icon + "Sync"
+
+4. Small teal status text centered: "Collected: WiFi, latency 931 ms"
+
+5. Card: "3 reading(s) waiting to upload"
+
+6. LATENCY TREND card:
+   Title: "Latency trend"
+   Subtitle: "Last 5 readings"
+   Bar chart: 5 vertical teal bars of varying heights, rounded tops
+
+7. Section: "Recent readings" / subtitle "Tap Feedback anytime to rate how it felt."
+   Three compact cards, each row:
+     Left: "Jun 8, 08:11" bold + "WiFi · 931 ms" small grey
+     Right: Fair badge pill
+
+8. Info card "Subjective prompts":
+   "When signal drops, latency spikes, or your network changes, you'll get
+   a quick star-rating prompt — in-app or as a notification."
+
+Light mode. Bottom nav visible. Clean card-based layout.
+
+
+================================================================================
+PROMPT 8 — DASHBOARD EMPTY STATE
+================================================================================
+
+FRAME NAME: Main / Dashboard Empty
+
+Same as Dashboard but no data yet:
+  Hero card shows: "No data yet" label, "Tap Check now" as headline, no badge,
+  no stat chips.
+  No pending sync card. Latency chart shows: "Take a few readings to see your
+  trend."
+  No recent readings section.
+
+Bottom nav Dashboard selected. Light mode.
+
+
+================================================================================
+PROMPT 9 — HISTORY TAB
+================================================================================
+
+FRAME NAME: Main / History
+
+Android screen, History tab selected in bottom nav.
+
+Sample data populated state:
+
+Section header:
+  Title: "QoE history"
+  Subtitle: "Your objective readings and subjective ratings over time."
+
+1. Card centered: "Average satisfaction" label, "3.8 / 5" large bold headline
+
+2. Latency trend card — bar chart, 5 teal bars, "Last 5 readings"
+
+3. Signal trend card — title "Signal trend", subtitle "Last 5 readings (dBm)",
+   5 grey-teal bars (secondary colour), different heights
+
+4. Network type distribution card:
+   Rows: WiFi 60% [long bar] | 4G 30% [medium bar] | 3G 10% [short bar]
+   Each row: type name left, horizontal bar center, percentage right
+
+5. Section "Recent feedback" — cards:
+   "Jun 8, 08:04" | trigger "latency_spike" | "3/5" teal right
+
+6. Section "Recent readings" — cards with timestamp, network, quality label
+
+Light mode, scrollable, bottom nav visible.
+
+
+================================================================================
+PROMPT 10 — FEEDBACK TAB (FORM)
+================================================================================
+
+FRAME NAME: Main / Feedback Form
+
+Android screen, Feedback tab selected.
+
+Section header:
+  Title: "Rate your experience"
+  Subtitle: "Quick subjective check — takes under 30 seconds. We may also
+  prompt you when the network changes."
+
+Card: "Current network: WiFi"
+
+Large card with 5 star-rating sections (each: title, grey description, 5 stars):
+  1. "Overall experience" — "How was your network just now?" — 4 stars filled
+  2. "Internet responsiveness" — "Pages, messages, and apps loading quickly?"
+     — 3 stars
+  3. "Streaming" — "Video and music playback quality?" — 0 stars
+  4. "Call quality" — "Voice and video calls clear?" — 0 stars
+  5. "General satisfaction" — "Would you recommend this network right now?"
+     — 0 stars
+
+Outlined text field below card:
+  Label: "Notes (optional)"
+  Placeholder: "e.g. buffering on YouTube, dropped call…"
+
+Full-width primary button "Submit feedback" — DISABLED greyed (not all
+ratings complete). Create second variant with all 5 filled and button ENABLED.
+
+Light mode, bottom nav visible.
+
+
+================================================================================
+PROMPT 11 — FEEDBACK SUCCESS
+================================================================================
+
+FRAME NAME: Main / Feedback Success
+
+Android screen after submitting feedback. Feedback tab still selected.
+
+Centered vertically:
+  - Large teal check-circle icon (64px)
+  - Headline: "Thanks for your feedback!"
+  - Body grey centered: "Your rating on WiFi helps improve network quality
+    insights across Cameroon."
+
+No form visible. Bottom nav visible. Light mode.
+
+
+================================================================================
+PROMPT 12 — QUICK FEEDBACK BOTTOM SHEET (OVERLAY)
+================================================================================
+
+FRAME NAME: Overlay / Quick Feedback Sheet
+
+Design a modal bottom sheet overlay on top of dimmed Dashboard screen.
+
+Bottom sheet content (24px padding, centered):
+  - Small teal label: "Quick feedback"
+  - Bold headline: "How's your network right now?"
+  - Caption grey: "Takes less than 30 seconds · tap a star to rate"
+
+  - Trigger card (icon left):
+      Icon: timer/slow icon in teal
+      Title: "Slow response"
+      Message: "Latency was higher than usual. How did apps and pages feel?"
+      Detail in teal: "450 ms → 931 ms" OR "On WiFi"
+
+  - Label: "Overall experience"
+  - 5 star rating row (3 stars filled teal)
+
+  - Full-width primary button "Submit" (enabled)
+
+  - Two text links side by side: "Rate in detail" | "Not now"
+
+Show dimmed dashboard behind sheet. Create 4 variants for trigger types:
+  A) Signal dropped — signal icon — "We noticed weaker signal strength..."
+  B) Network changed — swap icon — detail "4G → 3G"
+  C) Slow response — timer icon — detail latency change
+  D) Connection lost — wifi-off icon — "Connection lost"
+
+Light mode.
+
+
+================================================================================
+PROMPT 13 — PUSH NOTIFICATION
+================================================================================
+
+FRAME NAME: System / Notification
+
+Design Android system notification (outside app UI) for NetLinq:
+  App icon: NetLinq teal cell tower
+  Title: "Slow response"
+  Body: "450 ms → 931 ms"
+  Timestamp: now
+  Standard Android notification shade style on light wallpaper.
+
+This is NOT an in-app screen — for system UI reference only.
+
+
+================================================================================
+PROMPT 14 — SETTINGS TAB
+================================================================================
+
+FRAME NAME: Main / Settings
+
+Android screen, Settings tab selected. Scrollable.
+
+Section header:
+  Title: "Settings"
+  Subtitle: "Control monitoring, triggers, sync, and feedback frequency."
+
+CARD 1 — Toggles with divider:
+  Row: "Network monitoring" + description + switch ON (teal)
+  Divider
+  Row: "WiFi-only sync" + description + switch ON
+
+CARD 2 — "Monitoring triggers" section title, then 4 toggle rows:
+  Signal drop — ON
+  Network change — ON
+  Latency spike — ON
+  Connection loss — ON
+  Each: title, grey description, switch right
+
+CARD 3 — "Feedback frequency" with radio buttons:
+  ○ Less often
+  ● Normal (selected)
+  ○ More often
+
+Outlined full-width button: "View operator analytics demo"
+
+CARD 4 — Privacy:
+  Title "Privacy"
+  "No personal data is collected. Your device ID is hashed before upload.
+  You can stop monitoring anytime."
+
+Do NOT include "Preview prompts (debug)" section — that is dev-only.
+
+Light mode, bottom nav Settings selected.
+
+
+================================================================================
+PROMPT 15 — OPERATOR ANALYTICS DEMO
+================================================================================
+
+FRAME NAME: Main / Operator Analytics Demo
+
+Full screen WITHOUT bottom navigation (pushed from Settings).
+
+Section header:
+  Title: "Operator analytics (demo)"
+  Subtitle: "Sample aggregated data for coursework preview. Real operator
+  views will live on a future web dashboard with authenticated access."
+
+CARD 1 — Table-style list:
+  Title: "Hourly QoE summary"
+  Note: "No device identities shown — anonymized aggregates only."
+  Rows (3 columns: network | avg | count):
+    4G    Avg 4.1    128 reports
+    3G    Avg 2.8     45 reports
+    WiFi  Avg 4.5     89 reports
+    2G    Avg 1.9     12 reports
+
+CARD 2 — Bullet list "Degradation patterns (sample)":
+  • Signal drops peak 18:00–20:00 in urban zones
+  • 4G → 3G downgrades correlate with lower satisfaction
+  • Latency spikes above 500 ms: 23% of complaints
+
+Light mode. No bottom nav. Optional back arrow top-left.
+
+
+================================================================================
+PROMPT 16 — DARK MODE VARIANTS
+================================================================================
+
+Re-run Prompts 7, 9, 10, 12, 14 using dark theme:
+  Background #0F172A, Surface cards #1E293B, Primary accent #5EEAD4,
+  Text #F8FAFC, Secondary text #94A3B8.
+  Quality colours unchanged (green/amber/red).
+  Bottom nav dark surface.
+
+FRAME NAMES: append " Dark" e.g. "Main / Dashboard Dark"
+
+
+================================================================================
+PROMPT 17 — COMPONENT LIBRARY PAGE
+================================================================================
+
+FRAME NAME: Design System / Components
+
+Single Figma page with component variants:
+
+  - NetLinqCard (empty, with content)
+  - SectionHeader (title only, title + subtitle)
+  - QualityBadge: Good (green), Fair (amber), Poor (red)
+  - MetricStatChip: 3 colour variants
+  - StarRatingBar: 0, 3, 5 stars
+  - StarRatingRow: with label and description
+  - Primary button, Outlined button, Text button, Disabled button
+  - Switch on/off
+  - Radio selected/unselected
+  - Checkbox checked/unchecked
+  - StepIndicator: steps 1, 3, 5 of 5
+  - Trend bar chart mini
+  - Bottom sheet handle + top corners
+
+Label each with exact names above for dev handoff.
+
+
+================================================================================
+SAMPLE DATA FOR MOCKUPS
+================================================================================
+
+Network types: WiFi, 4G, 3G, 2G, 5G
+Signal values: -72 dBm (Good), -91 dBm (Fair), -105 dBm (Poor)
+Latency values: 48 ms (Good), 931 ms (Poor), 250 ms (Fair)
+Timestamps: Jun 8, 08:11 | Jun 8, 08:04 | Jun 8, 07:58
+Quality labels: Good (#22C55E), Fair (#F59E0B), Poor (#EF4444)
+Device ID preview: a3f8b2c1…
+Star ratings: use 3–4 filled for in-progress forms
+Pending sync: 3 reading(s) waiting to upload
+
+
+================================================================================
+FIGMA PROTOTYPE LINKING (for your designer)
+================================================================================
+
+Onboarding:
+  01 → Continue → 02 → Continue → 03 → Continue → 04 → Grant permissions →
+  Continue → 05 → Open dashboard → Dashboard
+
+Main app tabs:
+  Dashboard <-> History <-> Feedback <-> Settings (bottom nav tap)
+
+From Dashboard:
+  (Simulate) tap triggers quick feedback sheet overlay
+  Sheet: Submit → dismiss | Rate in detail → Feedback Form | Not now → dismiss
+
+From Settings:
+  View operator analytics demo → Operator screen → back → Settings
+
+From Feedback:
+  Submit feedback (enabled state) → Feedback Success
+
+
+================================================================================
+STITCH TIPS FOR YOUR TEAM MEMBER
+================================================================================
+
+- Paste PROMPT 0 first and ask Stitch to remember the style for follow-ups.
+- Generate one screen per prompt; refine with "make cards more rounded" or
+  "use exact hex #0D9488 for primary" if colours drift.
+- Keep copy EXACTLY as written — the app uses these strings in code.
+- Export frames at 2x for Figma import if Stitch outputs images.
+- Compare side-by-side with running app APK or screenshots from device.
+- Dark mode: run Prompt 16 after all light screens are approved.
+
+================================================================================
+END OF STITCH PROMPTS
+================================================================================
