@@ -3,6 +3,7 @@ package com.netlinq.presentation.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.netlinq.data.preferences.AppPreferences
+import com.netlinq.sync.SyncScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +25,8 @@ data class SettingsUiState(
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val appPreferences: AppPreferences
+    private val appPreferences: AppPreferences,
+    private val syncScheduler: SyncScheduler
 ) : ViewModel() {
 
     val uiState: StateFlow<SettingsUiState> = combine(
@@ -66,7 +68,10 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setWifiOnlySync(enabled: Boolean) {
-        viewModelScope.launch { appPreferences.setWifiOnlySync(enabled) }
+        viewModelScope.launch {
+            appPreferences.setWifiOnlySync(enabled)
+            syncScheduler.schedulePeriodicSync(wifiOnly = enabled)
+        }
     }
 
     fun setFeedbackFrequency(frequency: Int) {

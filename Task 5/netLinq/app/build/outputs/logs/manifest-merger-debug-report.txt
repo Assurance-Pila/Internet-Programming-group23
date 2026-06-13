@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 provider#androidx.startup.InitializationProvider
-INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:31:9-40:20
+INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:31:9-40:20
 MERGED from [androidx.work:work-runtime:2.9.1] /Users/user/.gradle/caches/8.9/transforms/7f0e23f553a96403c6573161c73e3bdb/transformed/work-runtime-2.9.1/AndroidManifest.xml:29:9-37:20
 MERGED from [androidx.work:work-runtime:2.9.1] /Users/user/.gradle/caches/8.9/transforms/7f0e23f553a96403c6573161c73e3bdb/transformed/work-runtime-2.9.1/AndroidManifest.xml:29:9-37:20
 MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/user/.gradle/caches/8.9/transforms/b33123638df0321ade75b93fa3723a44/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
@@ -12,19 +12,19 @@ MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.grad
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/user/.gradle/caches/8.9/transforms/b801fbdd5a8c8bf03b00c3c3247536b4/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/user/.gradle/caches/8.9/transforms/b801fbdd5a8c8bf03b00c3c3247536b4/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
 	tools:node
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:35:13-31
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:35:13-31
 	android:authorities
-		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:33:13-68
+		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:33:13-68
 	android:exported
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:34:13-37
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:34:13-37
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:32:13-67
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:32:13-67
 manifest
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:2:1-43:12
-INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:2:1-43:12
-INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:2:1-43:12
-INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:2:1-43:12
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:2:1-43:12
+INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:2:1-43:12
+INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:2:1-43:12
+INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:2:1-43:12
 MERGED from [androidx.work:work-runtime-ktx:2.9.1] /Users/user/.gradle/caches/8.9/transforms/ac4f77b5959b536eead1434f402d500f/transformed/work-runtime-ktx-2.9.1/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.hilt:hilt-work:1.2.0] /Users/user/.gradle/caches/8.9/transforms/55c40929bef709513b21d71050a4915f/transformed/hilt-work-1.2.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.work:work-runtime:2.9.1] /Users/user/.gradle/caches/8.9/transforms/7f0e23f553a96403c6573161c73e3bdb/transformed/work-runtime-2.9.1/AndroidManifest.xml:17:1-145:12
@@ -100,40 +100,40 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/user
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/user/.gradle/caches/8.9/transforms/40c58748694234cd3213d45cd09fa439/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.dagger:dagger-lint-aar:2.52] /Users/user/.gradle/caches/8.9/transforms/0e736e17f60be82679fe2b47135a2855/transformed/dagger-lint-aar-2.52/AndroidManifest.xml:16:1-19:12
 	package
-		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml
 	xmlns:tools
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:3:5-51
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:3:5-51
 	android:versionCode
-		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:5:5-67
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:5:5-67
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:5:22-64
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:5:22-64
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:6:5-79
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:6:5-79
 MERGED from [androidx.work:work-runtime:2.9.1] /Users/user/.gradle/caches/8.9/transforms/7f0e23f553a96403c6573161c73e3bdb/transformed/work-runtime-2.9.1/AndroidManifest.xml:24:5-79
 MERGED from [androidx.work:work-runtime:2.9.1] /Users/user/.gradle/caches/8.9/transforms/7f0e23f553a96403c6573161c73e3bdb/transformed/work-runtime-2.9.1/AndroidManifest.xml:24:5-79
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:6:22-76
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:6:22-76
 uses-permission#android.permission.READ_PHONE_STATE
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:7:5-75
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:7:5-75
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:7:22-72
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:7:22-72
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:8:5-79
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:8:5-79
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:8:22-76
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:8:22-76
 uses-permission#android.permission.POST_NOTIFICATIONS
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:9:5-77
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:9:5-77
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:9:22-74
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:9:22-74
 application
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:11:5-41:19
-INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:11:5-41:19
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:11:5-41:19
+INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:11:5-41:19
 MERGED from [androidx.work:work-runtime:2.9.1] /Users/user/.gradle/caches/8.9/transforms/7f0e23f553a96403c6573161c73e3bdb/transformed/work-runtime-2.9.1/AndroidManifest.xml:28:5-143:19
 MERGED from [androidx.work:work-runtime:2.9.1] /Users/user/.gradle/caches/8.9/transforms/7f0e23f553a96403c6573161c73e3bdb/transformed/work-runtime-2.9.1/AndroidManifest.xml:28:5-143:19
 MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/user/.gradle/caches/8.9/transforms/b33123638df0321ade75b93fa3723a44/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
@@ -153,56 +153,56 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/user/.gradle/caches/
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/user/.gradle/caches/8.9/transforms/e5ff396948b6b226d8128986d2f04a9f/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/user/.gradle/caches/8.9/transforms/e5ff396948b6b226d8128986d2f04a9f/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 	android:extractNativeLibs
-		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.15.0] /Users/user/.gradle/caches/8.9/transforms/598932cb631958496a5c7fe2ad5060db/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:17:9-35
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:17:9-35
 	android:label
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:15:9-41
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:15:9-41
 	android:roundIcon
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:16:9-54
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:16:9-54
 	tools:targetApi
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:19:9-29
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:19:9-29
 	android:icon
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:14:9-43
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:14:9-43
 	android:allowBackup
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:13:9-35
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:13:9-35
 	android:theme
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:18:9-45
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:18:9-45
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:12:9-43
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:12:9-43
 activity#com.netlinq.MainActivity
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:21:9-29:20
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:21:9-29:20
 	android:exported
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:23:13-36
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:23:13-36
 	android:theme
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:24:13-49
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:24:13-49
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:22:13-41
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:22:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:25:13-28:29
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:25:13-28:29
 action#android.intent.action.MAIN
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:26:17-69
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:26:17-69
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:26:25-66
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:26:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:27:17-77
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:27:17-77
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:27:27-74
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:27:27-74
 meta-data#androidx.work.WorkManagerInitializer
-ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:36:13-39:39
+ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:36:13-39:39
 REJECTED from [androidx.work:work-runtime:2.9.1] /Users/user/.gradle/caches/8.9/transforms/7f0e23f553a96403c6573161c73e3bdb/transformed/work-runtime-2.9.1/AndroidManifest.xml:34:13-36:52
 	tools:node
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:39:17-36
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:39:17-36
 	android:value
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:38:17-49
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:38:17-49
 	android:name
-		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml:37:17-68
+		ADDED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml:37:17-68
 uses-sdk
-INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml
-INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml
+INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml
+INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml
 MERGED from [androidx.work:work-runtime-ktx:2.9.1] /Users/user/.gradle/caches/8.9/transforms/ac4f77b5959b536eead1434f402d500f/transformed/work-runtime-ktx-2.9.1/AndroidManifest.xml:20:5-44
 MERGED from [androidx.work:work-runtime-ktx:2.9.1] /Users/user/.gradle/caches/8.9/transforms/ac4f77b5959b536eead1434f402d500f/transformed/work-runtime-ktx-2.9.1/AndroidManifest.xml:20:5-44
 MERGED from [androidx.hilt:hilt-work:1.2.0] /Users/user/.gradle/caches/8.9/transforms/55c40929bef709513b21d71050a4915f/transformed/hilt-work-1.2.0/AndroidManifest.xml:20:5-44
@@ -352,9 +352,9 @@ MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/user/.gra
 MERGED from [com.google.dagger:dagger-lint-aar:2.52] /Users/user/.gradle/caches/8.9/transforms/0e736e17f60be82679fe2b47135a2855/transformed/dagger-lint-aar-2.52/AndroidManifest.xml:18:3-42
 MERGED from [com.google.dagger:dagger-lint-aar:2.52] /Users/user/.gradle/caches/8.9/transforms/0e736e17f60be82679fe2b47135a2855/transformed/dagger-lint-aar-2.52/AndroidManifest.xml:18:3-42
 	android:targetSdkVersion
-		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.WAKE_LOCK
 ADDED from [androidx.work:work-runtime:2.9.1] /Users/user/.gradle/caches/8.9/transforms/7f0e23f553a96403c6573161c73e3bdb/transformed/work-runtime-2.9.1/AndroidManifest.xml:23:5-68
 	android:name

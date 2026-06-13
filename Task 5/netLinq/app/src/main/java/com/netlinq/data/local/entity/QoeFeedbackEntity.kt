@@ -1,9 +1,22 @@
 package com.netlinq.data.local.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "qoe_feedback")
+@Entity(
+    tableName = "qoe_feedback",
+    foreignKeys = [
+        ForeignKey(
+            entity = NetworkMetricEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["networkMetricId"],
+            onDelete = ForeignKey.SET_NULL
+        )
+    ],
+    indices = [Index("networkMetricId")]
+)
 data class QoeFeedbackEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val overallRating: Int,

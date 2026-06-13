@@ -2,6 +2,8 @@
 
 Follow these steps when creating your Supabase backend. Share the **Project URL** and **anon key** with the team (add to `local.properties`).
 
+For the full entity relationship model, see **[ER_DIAGRAM.md](./ER_DIAGRAM.md)**.
+
 ---
 
 ## 1. Create the project
@@ -25,69 +27,29 @@ Never commit `local.properties`. The anon key is safe in the app **only when Row
 
 ---
 
-## 3. Run initial schema (SQL Editor)
+## 3. Run the database schema
 
-Paste and run in **SQL Editor → New query**:
+### New project
 
-```sql
--- Anonymous device identifier (hashed on device before upload)
-CREATE TABLE network_metrics (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    device_hash TEXT NOT NULL,
-    signal_strength INT,
-    signal_quality INT,
-    network_type TEXT NOT NULL,
-    latency_ms INT,
-    device_model TEXT,
-    android_version TEXT,
-    recorded_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+In **SQL Editor → New query**, paste and run the full script:
 
-CREATE TABLE qoe_feedback (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    device_hash TEXT NOT NULL,
-    overall_rating SMALLINT CHECK (overall_rating BETWEEN 1 AND 5),
-    responsiveness_rating SMALLINT CHECK (responsiveness_rating BETWEEN 1 AND 5),
-    streaming_rating SMALLINT CHECK (streaming_rating BETWEEN 1 AND 5),
-    call_quality_rating SMALLINT CHECK (call_quality_rating BETWEEN 1 AND 5),
-    satisfaction_rating SMALLINT CHECK (satisfaction_rating BETWEEN 1 AND 5),
-    trigger_event TEXT,
-    network_type TEXT,
-    notes TEXT,
-    recorded_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+```
+docs/supabase/schema.sql
+```
 
--- Indexes for operator analytics
-CREATE INDEX idx_network_metrics_recorded_at ON network_metrics (recorded_at);
-CREATE INDEX idx_network_metrics_network_type ON network_metrics (network_type);
-CREATE INDEX idx_qoe_feedback_recorded_at ON qoe_feedback (recorded_at);
+This creates:
 
--- Enable Row Level Security
-ALTER TABLE network_metrics ENABLE ROW LEVEL SECURITY;
-ALTER TABLE qoe_feedback ENABLE ROW LEVEL SECURITY;
+- `network_metrics` — automatic readings (`client_metric_id` = local Room row id)
+- `qoe_feedback` — star ratings with optional link to a reading
+- Indexes, RLS policies (anonymous insert only)
+- Operator analytics views (`operator_qoe_summary`, `operator_network_quality`, `operator_feedback_with_context`)
 
--- Allow anonymous inserts only (no reads of other users' raw data from the app)
-CREATE POLICY "Allow anonymous insert on network_metrics"
-    ON network_metrics FOR INSERT
-    TO anon
-    WITH CHECK (true);
+### Existing project (original schema without linking columns)
 
-CREATE POLICY "Allow anonymous insert on qoe_feedback"
-    ON qoe_feedback FOR INSERT
-    TO anon
-    WITH CHECK (true);
+Run instead:
 
--- Operator analytics view (aggregated, no device_hash exposed in reports)
-CREATE OR REPLACE VIEW operator_qoe_summary AS
-SELECT
-    date_trunc('hour', recorded_at) AS hour,
-    network_type,
-    AVG(overall_rating)::NUMERIC(3,2) AS avg_overall,
-    COUNT(*) AS feedback_count
-FROM qoe_feedback
-GROUP BY 1, 2;
+```
+docs/supabase/migration_v1_linking.sql
 ```
 
 ---
@@ -107,26 +69,45 @@ supabase.url=https://YOUR_PROJECT_REF.supabase.co
 supabase.anon.key=eyJhbGciOiJIUzI1NiIs...
 ```
 
-Rebuild the app so `BuildConfig` picks up the values.
+Rebuild the app so `BuildConfig` picks up the values:
+
+```bash
+./gradlew assembleDebug
+```
 
 ---
 
-## 5. What to share with the team
+## 5. Verify sync from the app
+
+1. Complete onboarding on device/emulator
+2. Open **Dashboard** → tap **Check now** (creates a local reading)
+3. Submit feedback (Feedback tab or quick prompt)
+4. Tap **Sync** — should report uploaded records
+5. In Supabase **Table Editor**, confirm rows in `network_metrics` and `qoe_feedback`
+6. Check **SQL Editor**: `SELECT * FROM operator_qoe_summary LIMIT 10;`
+
+---
+
+## 6. What to share with the team
 
 When your Supabase project is ready, share:
 
 1. Project URL
 2. Anon public key
-3. Confirm the SQL schema above was run
+3. Confirm `schema.sql` (or migration) was run
 
 Do **not** share the `service_role` key — it bypasses RLS.
 
 ---
 
-## Next app integration steps
+## 7. App integration (already implemented)
 
-Once credentials are in place, we will add:
+| Component | Location |
+|-----------|----------|
+| REST client | `data/remote/SupabaseApi.kt` |
+| Sync logic | `data/repository/SyncRepository.kt` |
+| Background sync | `sync/SyncWorker.kt`, `sync/SyncScheduler.kt` |
+| Startup bootstrap | `AppInitializer.kt` (schedules WorkManager after onboarding) |
+| WiFi-only setting | Settings → reschedules sync when toggled |
 
-- Retrofit/Ktor Supabase REST client
-- WorkManager sync worker for unsynced Room records
-- WiFi-only sync setting (per SRS)
+Sync runs every 15 minutes when network constraints are met (WiFi-only by default, user can allow mobile data).

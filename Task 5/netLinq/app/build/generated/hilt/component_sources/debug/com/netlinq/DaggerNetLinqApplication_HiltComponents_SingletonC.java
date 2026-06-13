@@ -430,40 +430,40 @@ public final class DaggerNetLinqApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_netlinq_presentation_monitoring_PromptEventViewModel = "com.netlinq.presentation.monitoring.PromptEventViewModel";
-
-      static String com_netlinq_presentation_feedback_FeedbackViewModel = "com.netlinq.presentation.feedback.FeedbackViewModel";
-
       static String com_netlinq_presentation_home_HomeViewModel = "com.netlinq.presentation.home.HomeViewModel";
-
-      static String com_netlinq_presentation_MainViewModel = "com.netlinq.presentation.MainViewModel";
-
-      static String com_netlinq_presentation_history_HistoryViewModel = "com.netlinq.presentation.history.HistoryViewModel";
 
       static String com_netlinq_presentation_settings_SettingsViewModel = "com.netlinq.presentation.settings.SettingsViewModel";
 
+      static String com_netlinq_presentation_history_HistoryViewModel = "com.netlinq.presentation.history.HistoryViewModel";
+
       static String com_netlinq_presentation_onboarding_OnboardingViewModel = "com.netlinq.presentation.onboarding.OnboardingViewModel";
 
-      @KeepFieldType
-      PromptEventViewModel com_netlinq_presentation_monitoring_PromptEventViewModel2;
+      static String com_netlinq_presentation_MainViewModel = "com.netlinq.presentation.MainViewModel";
 
-      @KeepFieldType
-      FeedbackViewModel com_netlinq_presentation_feedback_FeedbackViewModel2;
+      static String com_netlinq_presentation_feedback_FeedbackViewModel = "com.netlinq.presentation.feedback.FeedbackViewModel";
+
+      static String com_netlinq_presentation_monitoring_PromptEventViewModel = "com.netlinq.presentation.monitoring.PromptEventViewModel";
 
       @KeepFieldType
       HomeViewModel com_netlinq_presentation_home_HomeViewModel2;
 
       @KeepFieldType
-      MainViewModel com_netlinq_presentation_MainViewModel2;
+      SettingsViewModel com_netlinq_presentation_settings_SettingsViewModel2;
 
       @KeepFieldType
       HistoryViewModel com_netlinq_presentation_history_HistoryViewModel2;
 
       @KeepFieldType
-      SettingsViewModel com_netlinq_presentation_settings_SettingsViewModel2;
+      OnboardingViewModel com_netlinq_presentation_onboarding_OnboardingViewModel2;
 
       @KeepFieldType
-      OnboardingViewModel com_netlinq_presentation_onboarding_OnboardingViewModel2;
+      MainViewModel com_netlinq_presentation_MainViewModel2;
+
+      @KeepFieldType
+      FeedbackViewModel com_netlinq_presentation_feedback_FeedbackViewModel2;
+
+      @KeepFieldType
+      PromptEventViewModel com_netlinq_presentation_monitoring_PromptEventViewModel2;
     }
   }
 
@@ -522,22 +522,22 @@ public final class DaggerNetLinqApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_netlinq_presentation_onboarding_OnboardingViewModel = "com.netlinq.presentation.onboarding.OnboardingViewModel";
+      static String com_netlinq_presentation_feedback_FeedbackViewModel = "com.netlinq.presentation.feedback.FeedbackViewModel";
 
       static String com_netlinq_presentation_home_HomeViewModel = "com.netlinq.presentation.home.HomeViewModel";
 
       static String com_netlinq_presentation_monitoring_PromptEventViewModel = "com.netlinq.presentation.monitoring.PromptEventViewModel";
 
+      static String com_netlinq_presentation_onboarding_OnboardingViewModel = "com.netlinq.presentation.onboarding.OnboardingViewModel";
+
       static String com_netlinq_presentation_history_HistoryViewModel = "com.netlinq.presentation.history.HistoryViewModel";
 
       static String com_netlinq_presentation_MainViewModel = "com.netlinq.presentation.MainViewModel";
 
-      static String com_netlinq_presentation_feedback_FeedbackViewModel = "com.netlinq.presentation.feedback.FeedbackViewModel";
-
       static String com_netlinq_presentation_settings_SettingsViewModel = "com.netlinq.presentation.settings.SettingsViewModel";
 
       @KeepFieldType
-      OnboardingViewModel com_netlinq_presentation_onboarding_OnboardingViewModel2;
+      FeedbackViewModel com_netlinq_presentation_feedback_FeedbackViewModel2;
 
       @KeepFieldType
       HomeViewModel com_netlinq_presentation_home_HomeViewModel2;
@@ -546,13 +546,13 @@ public final class DaggerNetLinqApplication_HiltComponents_SingletonC {
       PromptEventViewModel com_netlinq_presentation_monitoring_PromptEventViewModel2;
 
       @KeepFieldType
+      OnboardingViewModel com_netlinq_presentation_onboarding_OnboardingViewModel2;
+
+      @KeepFieldType
       HistoryViewModel com_netlinq_presentation_history_HistoryViewModel2;
 
       @KeepFieldType
       MainViewModel com_netlinq_presentation_MainViewModel2;
-
-      @KeepFieldType
-      FeedbackViewModel com_netlinq_presentation_feedback_FeedbackViewModel2;
 
       @KeepFieldType
       SettingsViewModel com_netlinq_presentation_settings_SettingsViewModel2;
@@ -598,7 +598,7 @@ public final class DaggerNetLinqApplication_HiltComponents_SingletonC {
           return (T) new PromptEventViewModel(singletonCImpl.networkMonitoringManagerProvider.get(), singletonCImpl.feedbackNotificationHelperProvider.get());
 
           case 6: // com.netlinq.presentation.settings.SettingsViewModel 
-          return (T) new SettingsViewModel(singletonCImpl.appPreferencesProvider.get());
+          return (T) new SettingsViewModel(singletonCImpl.appPreferencesProvider.get(), singletonCImpl.syncSchedulerProvider.get());
 
           default: throw new AssertionError(id);
         }
@@ -680,6 +680,12 @@ public final class DaggerNetLinqApplication_HiltComponents_SingletonC {
 
     private final SingletonCImpl singletonCImpl = this;
 
+    private Provider<AppPreferences> appPreferencesProvider;
+
+    private Provider<SyncScheduler> syncSchedulerProvider;
+
+    private Provider<AppInitializer> appInitializerProvider;
+
     private Provider<NetLinqDatabase> provideDatabaseProvider;
 
     private Provider<QoeFeedbackRepository> qoeFeedbackRepositoryProvider;
@@ -700,13 +706,9 @@ public final class DaggerNetLinqApplication_HiltComponents_SingletonC {
 
     private Provider<SupabaseApi> provideSupabaseApiProvider;
 
-    private Provider<AppPreferences> appPreferencesProvider;
-
     private Provider<DeviceRepository> deviceRepositoryProvider;
 
     private Provider<SyncRepository> syncRepositoryProvider;
-
-    private Provider<SyncScheduler> syncSchedulerProvider;
 
     private Provider<NetworkDegradationDetector> networkDegradationDetectorProvider;
 
@@ -734,23 +736,24 @@ public final class DaggerNetLinqApplication_HiltComponents_SingletonC {
 
     @SuppressWarnings("unchecked")
     private void initialize(final ApplicationContextModule applicationContextModuleParam) {
-      this.provideDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<NetLinqDatabase>(singletonCImpl, 1));
-      this.qoeFeedbackRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<QoeFeedbackRepository>(singletonCImpl, 0));
-      this.networkMetricRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<NetworkMetricRepository>(singletonCImpl, 2));
-      this.networkTypeDetectorProvider = DoubleCheck.provider(new SwitchingProvider<NetworkTypeDetector>(singletonCImpl, 4));
-      this.signalStrengthCollectorProvider = DoubleCheck.provider(new SwitchingProvider<SignalStrengthCollector>(singletonCImpl, 5));
-      this.latencyMeasurerProvider = DoubleCheck.provider(new SwitchingProvider<LatencyMeasurer>(singletonCImpl, 6));
-      this.networkMonitorServiceProvider = DoubleCheck.provider(new SwitchingProvider<NetworkMonitorService>(singletonCImpl, 3));
-      this.provideOkHttpClientProvider = DoubleCheck.provider(new SwitchingProvider<OkHttpClient>(singletonCImpl, 10));
-      this.provideRetrofitProvider = DoubleCheck.provider(new SwitchingProvider<Retrofit>(singletonCImpl, 9));
-      this.provideSupabaseApiProvider = DoubleCheck.provider(new SwitchingProvider<SupabaseApi>(singletonCImpl, 8));
-      this.appPreferencesProvider = DoubleCheck.provider(new SwitchingProvider<AppPreferences>(singletonCImpl, 12));
-      this.deviceRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<DeviceRepository>(singletonCImpl, 11));
-      this.syncRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<SyncRepository>(singletonCImpl, 7));
-      this.syncSchedulerProvider = DoubleCheck.provider(new SwitchingProvider<SyncScheduler>(singletonCImpl, 13));
-      this.networkDegradationDetectorProvider = DoubleCheck.provider(new SwitchingProvider<NetworkDegradationDetector>(singletonCImpl, 15));
-      this.networkMonitoringManagerProvider = DoubleCheck.provider(new SwitchingProvider<NetworkMonitoringManager>(singletonCImpl, 14));
-      this.feedbackNotificationHelperProvider = DoubleCheck.provider(new SwitchingProvider<FeedbackNotificationHelper>(singletonCImpl, 16));
+      this.appPreferencesProvider = DoubleCheck.provider(new SwitchingProvider<AppPreferences>(singletonCImpl, 1));
+      this.syncSchedulerProvider = DoubleCheck.provider(new SwitchingProvider<SyncScheduler>(singletonCImpl, 2));
+      this.appInitializerProvider = DoubleCheck.provider(new SwitchingProvider<AppInitializer>(singletonCImpl, 0));
+      this.provideDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<NetLinqDatabase>(singletonCImpl, 4));
+      this.qoeFeedbackRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<QoeFeedbackRepository>(singletonCImpl, 3));
+      this.networkMetricRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<NetworkMetricRepository>(singletonCImpl, 5));
+      this.networkTypeDetectorProvider = DoubleCheck.provider(new SwitchingProvider<NetworkTypeDetector>(singletonCImpl, 7));
+      this.signalStrengthCollectorProvider = DoubleCheck.provider(new SwitchingProvider<SignalStrengthCollector>(singletonCImpl, 8));
+      this.latencyMeasurerProvider = DoubleCheck.provider(new SwitchingProvider<LatencyMeasurer>(singletonCImpl, 9));
+      this.networkMonitorServiceProvider = DoubleCheck.provider(new SwitchingProvider<NetworkMonitorService>(singletonCImpl, 6));
+      this.provideOkHttpClientProvider = DoubleCheck.provider(new SwitchingProvider<OkHttpClient>(singletonCImpl, 13));
+      this.provideRetrofitProvider = DoubleCheck.provider(new SwitchingProvider<Retrofit>(singletonCImpl, 12));
+      this.provideSupabaseApiProvider = DoubleCheck.provider(new SwitchingProvider<SupabaseApi>(singletonCImpl, 11));
+      this.deviceRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<DeviceRepository>(singletonCImpl, 14));
+      this.syncRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<SyncRepository>(singletonCImpl, 10));
+      this.networkDegradationDetectorProvider = DoubleCheck.provider(new SwitchingProvider<NetworkDegradationDetector>(singletonCImpl, 16));
+      this.networkMonitoringManagerProvider = DoubleCheck.provider(new SwitchingProvider<NetworkMonitoringManager>(singletonCImpl, 15));
+      this.feedbackNotificationHelperProvider = DoubleCheck.provider(new SwitchingProvider<FeedbackNotificationHelper>(singletonCImpl, 17));
     }
 
     @Override
@@ -775,6 +778,7 @@ public final class DaggerNetLinqApplication_HiltComponents_SingletonC {
 
     private NetLinqApplication injectNetLinqApplication2(NetLinqApplication instance) {
       NetLinqApplication_MembersInjector.injectWorkerFactory(instance, hiltWorkerFactory());
+      NetLinqApplication_MembersInjector.injectAppInitializer(instance, appInitializerProvider.get());
       return instance;
     }
 
@@ -792,55 +796,58 @@ public final class DaggerNetLinqApplication_HiltComponents_SingletonC {
       @Override
       public T get() {
         switch (id) {
-          case 0: // com.netlinq.data.repository.QoeFeedbackRepository 
-          return (T) new QoeFeedbackRepository(singletonCImpl.qoeFeedbackDao());
+          case 0: // com.netlinq.AppInitializer 
+          return (T) new AppInitializer(singletonCImpl.appPreferencesProvider.get(), singletonCImpl.syncSchedulerProvider.get());
 
-          case 1: // com.netlinq.data.local.NetLinqDatabase 
-          return (T) DatabaseModule_ProvideDatabaseFactory.provideDatabase(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
-
-          case 2: // com.netlinq.data.repository.NetworkMetricRepository 
-          return (T) new NetworkMetricRepository(singletonCImpl.networkMetricDao());
-
-          case 3: // com.netlinq.monitoring.NetworkMonitorService 
-          return (T) new NetworkMonitorService(singletonCImpl.networkTypeDetectorProvider.get(), singletonCImpl.signalStrengthCollectorProvider.get(), singletonCImpl.latencyMeasurerProvider.get(), singletonCImpl.networkMetricRepositoryProvider.get());
-
-          case 4: // com.netlinq.monitoring.NetworkTypeDetector 
-          return (T) new NetworkTypeDetector(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
-
-          case 5: // com.netlinq.monitoring.SignalStrengthCollector 
-          return (T) new SignalStrengthCollector(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
-
-          case 6: // com.netlinq.monitoring.LatencyMeasurer 
-          return (T) new LatencyMeasurer();
-
-          case 7: // com.netlinq.data.repository.SyncRepository 
-          return (T) new SyncRepository(singletonCImpl.provideSupabaseApiProvider.get(), singletonCImpl.deviceRepositoryProvider.get(), singletonCImpl.networkMetricRepositoryProvider.get(), singletonCImpl.qoeFeedbackRepositoryProvider.get());
-
-          case 8: // com.netlinq.data.remote.SupabaseApi 
-          return (T) NetworkModule_ProvideSupabaseApiFactory.provideSupabaseApi(singletonCImpl.provideRetrofitProvider.get());
-
-          case 9: // retrofit2.Retrofit 
-          return (T) NetworkModule_ProvideRetrofitFactory.provideRetrofit(singletonCImpl.provideOkHttpClientProvider.get());
-
-          case 10: // okhttp3.OkHttpClient 
-          return (T) NetworkModule_ProvideOkHttpClientFactory.provideOkHttpClient();
-
-          case 11: // com.netlinq.data.repository.DeviceRepository 
-          return (T) new DeviceRepository(singletonCImpl.appPreferencesProvider.get());
-
-          case 12: // com.netlinq.data.preferences.AppPreferences 
+          case 1: // com.netlinq.data.preferences.AppPreferences 
           return (T) new AppPreferences(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 13: // com.netlinq.sync.SyncScheduler 
+          case 2: // com.netlinq.sync.SyncScheduler 
           return (T) new SyncScheduler(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 14: // com.netlinq.monitoring.NetworkMonitoringManager 
+          case 3: // com.netlinq.data.repository.QoeFeedbackRepository 
+          return (T) new QoeFeedbackRepository(singletonCImpl.qoeFeedbackDao());
+
+          case 4: // com.netlinq.data.local.NetLinqDatabase 
+          return (T) DatabaseModule_ProvideDatabaseFactory.provideDatabase(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 5: // com.netlinq.data.repository.NetworkMetricRepository 
+          return (T) new NetworkMetricRepository(singletonCImpl.networkMetricDao());
+
+          case 6: // com.netlinq.monitoring.NetworkMonitorService 
+          return (T) new NetworkMonitorService(singletonCImpl.networkTypeDetectorProvider.get(), singletonCImpl.signalStrengthCollectorProvider.get(), singletonCImpl.latencyMeasurerProvider.get(), singletonCImpl.networkMetricRepositoryProvider.get());
+
+          case 7: // com.netlinq.monitoring.NetworkTypeDetector 
+          return (T) new NetworkTypeDetector(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 8: // com.netlinq.monitoring.SignalStrengthCollector 
+          return (T) new SignalStrengthCollector(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 9: // com.netlinq.monitoring.LatencyMeasurer 
+          return (T) new LatencyMeasurer();
+
+          case 10: // com.netlinq.data.repository.SyncRepository 
+          return (T) new SyncRepository(singletonCImpl.provideSupabaseApiProvider.get(), singletonCImpl.deviceRepositoryProvider.get(), singletonCImpl.networkMetricRepositoryProvider.get(), singletonCImpl.qoeFeedbackRepositoryProvider.get());
+
+          case 11: // com.netlinq.data.remote.SupabaseApi 
+          return (T) NetworkModule_ProvideSupabaseApiFactory.provideSupabaseApi(singletonCImpl.provideRetrofitProvider.get());
+
+          case 12: // retrofit2.Retrofit 
+          return (T) NetworkModule_ProvideRetrofitFactory.provideRetrofit(singletonCImpl.provideOkHttpClientProvider.get());
+
+          case 13: // okhttp3.OkHttpClient 
+          return (T) NetworkModule_ProvideOkHttpClientFactory.provideOkHttpClient();
+
+          case 14: // com.netlinq.data.repository.DeviceRepository 
+          return (T) new DeviceRepository(singletonCImpl.appPreferencesProvider.get());
+
+          case 15: // com.netlinq.monitoring.NetworkMonitoringManager 
           return (T) new NetworkMonitoringManager(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule), singletonCImpl.networkMonitorServiceProvider.get(), singletonCImpl.networkTypeDetectorProvider.get(), singletonCImpl.networkDegradationDetectorProvider.get(), singletonCImpl.appPreferencesProvider.get());
 
-          case 15: // com.netlinq.monitoring.NetworkDegradationDetector 
+          case 16: // com.netlinq.monitoring.NetworkDegradationDetector 
           return (T) new NetworkDegradationDetector();
 
-          case 16: // com.netlinq.notifications.FeedbackNotificationHelper 
+          case 17: // com.netlinq.notifications.FeedbackNotificationHelper 
           return (T) new FeedbackNotificationHelper(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
           default: throw new AssertionError(id);

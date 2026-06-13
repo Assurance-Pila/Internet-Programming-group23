@@ -22,6 +22,7 @@ interface SupabaseApi {
 
 data class NetworkMetricPayload(
     val device_hash: String,
+    val client_metric_id: Long,
     val signal_strength: Int?,
     val signal_quality: Int?,
     val network_type: String,

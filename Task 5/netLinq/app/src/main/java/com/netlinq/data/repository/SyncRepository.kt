@@ -33,6 +33,7 @@ class SyncRepository @Inject constructor(
             val payload = metrics.map { metric ->
                 NetworkMetricPayload(
                     device_hash = deviceHash,
+                    client_metric_id = metric.id,
                     signal_strength = metric.signalStrength,
                     signal_quality = metric.signalQuality,
                     network_type = metric.networkType.label,

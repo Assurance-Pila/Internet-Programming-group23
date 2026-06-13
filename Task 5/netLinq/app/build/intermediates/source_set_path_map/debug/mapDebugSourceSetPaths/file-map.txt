@@ -63,10 +63,10 @@ com.netlinq.app-activity-ktx-1.9.3-61 /Users/user/.gradle/caches/8.9/transforms/
 com.netlinq.app-animation-release-62 /Users/user/.gradle/caches/8.9/transforms/ee1d791fb331cd878f1c3c96431b0a48/transformed/animation-release/res
 com.netlinq.app-savedstate-ktx-1.2.1-63 /Users/user/.gradle/caches/8.9/transforms/f274a2ac9f0e6fe46aec019ac25afd60/transformed/savedstate-ktx-1.2.1/res
 com.netlinq.app-navigation-runtime-2.8.5-64 /Users/user/.gradle/caches/8.9/transforms/f3dd06432c16402e8beeb43ba1189b53/transformed/navigation-runtime-2.8.5/res
-com.netlinq.app-pngs-65 /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/build/generated/res/pngs/debug
-com.netlinq.app-resValues-66 /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/build/generated/res/resValues/debug
-com.netlinq.app-packageDebugResources-67 /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
-com.netlinq.app-packageDebugResources-68 /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
-com.netlinq.app-debug-69 /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/build/intermediates/merged_res/debug/mergeDebugResources
-com.netlinq.app-debug-70 /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/debug/res
-com.netlinq.app-main-71 /Users/user/Desktop/internet_programing/Internet-Programming-group23/netLinq/app/src/main/res
+com.netlinq.app-pngs-65 /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/build/generated/res/pngs/debug
+com.netlinq.app-resValues-66 /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/build/generated/res/resValues/debug
+com.netlinq.app-packageDebugResources-67 /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.netlinq.app-packageDebugResources-68 /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.netlinq.app-debug-69 /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/build/intermediates/merged_res/debug/mergeDebugResources
+com.netlinq.app-debug-70 /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/debug/res
+com.netlinq.app-main-71 /Users/user/Desktop/internet_programing/Internet-Programming-group23/Task 5/netLinq/app/src/main/res

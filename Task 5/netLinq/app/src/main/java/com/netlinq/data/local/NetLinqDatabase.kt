@@ -9,7 +9,7 @@ import com.netlinq.data.local.entity.QoeFeedbackEntity
 
 @Database(
     entities = [NetworkMetricEntity::class, QoeFeedbackEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class NetLinqDatabase : RoomDatabase() {

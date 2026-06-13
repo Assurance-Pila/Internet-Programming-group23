@@ -20,6 +20,7 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -37,13 +38,14 @@ public final class NetLinqDatabase_Impl extends NetLinqDatabase {
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(2) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(3) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `network_metrics` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `signalStrength` INTEGER, `signalQuality` INTEGER, `networkType` TEXT NOT NULL, `latencyMs` INTEGER, `deviceModel` TEXT NOT NULL, `androidVersion` TEXT NOT NULL, `recordedAt` INTEGER NOT NULL, `synced` INTEGER NOT NULL)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `qoe_feedback` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `overallRating` INTEGER NOT NULL, `responsivenessRating` INTEGER NOT NULL, `streamingRating` INTEGER NOT NULL, `callQualityRating` INTEGER NOT NULL, `satisfactionRating` INTEGER NOT NULL, `triggerEvent` TEXT, `networkType` TEXT, `networkMetricId` INTEGER, `metricRecordedAt` INTEGER, `signalStrengthSnapshot` INTEGER, `latencyMsSnapshot` INTEGER, `notes` TEXT, `recordedAt` INTEGER NOT NULL, `synced` INTEGER NOT NULL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `qoe_feedback` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `overallRating` INTEGER NOT NULL, `responsivenessRating` INTEGER NOT NULL, `streamingRating` INTEGER NOT NULL, `callQualityRating` INTEGER NOT NULL, `satisfactionRating` INTEGER NOT NULL, `triggerEvent` TEXT, `networkType` TEXT, `networkMetricId` INTEGER, `metricRecordedAt` INTEGER, `signalStrengthSnapshot` INTEGER, `latencyMsSnapshot` INTEGER, `notes` TEXT, `recordedAt` INTEGER NOT NULL, `synced` INTEGER NOT NULL, FOREIGN KEY(`networkMetricId`) REFERENCES `network_metrics`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )");
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_qoe_feedback_networkMetricId` ON `qoe_feedback` (`networkMetricId`)");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a3c1137e6616c60b73bdb9da9c757051')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5b84416b24eda21d0b1c9c3ab03b3e96')");
       }
 
       @Override
@@ -71,6 +73,7 @@ public final class NetLinqDatabase_Impl extends NetLinqDatabase {
       @Override
       public void onOpen(@NonNull final SupportSQLiteDatabase db) {
         mDatabase = db;
+        db.execSQL("PRAGMA foreign_keys = ON");
         internalInitInvalidationTracker(db);
         final List<? extends RoomDatabase.Callback> _callbacks = mCallbacks;
         if (_callbacks != null) {
@@ -128,8 +131,10 @@ public final class NetLinqDatabase_Impl extends NetLinqDatabase {
         _columnsQoeFeedback.put("notes", new TableInfo.Column("notes", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsQoeFeedback.put("recordedAt", new TableInfo.Column("recordedAt", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsQoeFeedback.put("synced", new TableInfo.Column("synced", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        final HashSet<TableInfo.ForeignKey> _foreignKeysQoeFeedback = new HashSet<TableInfo.ForeignKey>(0);
-        final HashSet<TableInfo.Index> _indicesQoeFeedback = new HashSet<TableInfo.Index>(0);
+        final HashSet<TableInfo.ForeignKey> _foreignKeysQoeFeedback = new HashSet<TableInfo.ForeignKey>(1);
+        _foreignKeysQoeFeedback.add(new TableInfo.ForeignKey("network_metrics", "SET NULL", "NO ACTION", Arrays.asList("networkMetricId"), Arrays.asList("id")));
+        final HashSet<TableInfo.Index> _indicesQoeFeedback = new HashSet<TableInfo.Index>(1);
+        _indicesQoeFeedback.add(new TableInfo.Index("index_qoe_feedback_networkMetricId", false, Arrays.asList("networkMetricId"), Arrays.asList("ASC")));
         final TableInfo _infoQoeFeedback = new TableInfo("qoe_feedback", _columnsQoeFeedback, _foreignKeysQoeFeedback, _indicesQoeFeedback);
         final TableInfo _existingQoeFeedback = TableInfo.read(db, "qoe_feedback");
         if (!_infoQoeFeedback.equals(_existingQoeFeedback)) {
@@ -139,7 +144,7 @@ public final class NetLinqDatabase_Impl extends NetLinqDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "a3c1137e6616c60b73bdb9da9c757051", "8e836cfd21a669a34c5d514722557851");
+    }, "5b84416b24eda21d0b1c9c3ab03b3e96", "68b1a4f6f926ea369f7173c5d53fa860");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;
@@ -157,13 +162,23 @@ public final class NetLinqDatabase_Impl extends NetLinqDatabase {
   public void clearAllTables() {
     super.assertNotMainThread();
     final SupportSQLiteDatabase _db = super.getOpenHelper().getWritableDatabase();
+    final boolean _supportsDeferForeignKeys = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
     try {
+      if (!_supportsDeferForeignKeys) {
+        _db.execSQL("PRAGMA foreign_keys = FALSE");
+      }
       super.beginTransaction();
+      if (_supportsDeferForeignKeys) {
+        _db.execSQL("PRAGMA defer_foreign_keys = TRUE");
+      }
       _db.execSQL("DELETE FROM `network_metrics`");
       _db.execSQL("DELETE FROM `qoe_feedback`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();
+      if (!_supportsDeferForeignKeys) {
+        _db.execSQL("PRAGMA foreign_keys = TRUE");
+      }
       _db.query("PRAGMA wal_checkpoint(FULL)").close();
       if (!_db.inTransaction()) {
         _db.execSQL("VACUUM");

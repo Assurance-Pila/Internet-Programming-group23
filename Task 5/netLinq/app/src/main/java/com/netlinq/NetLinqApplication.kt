@@ -12,6 +12,14 @@ class NetLinqApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    @Inject
+    lateinit var appInitializer: AppInitializer
+
+    override fun onCreate() {
+        super.onCreate()
+        appInitializer.run()
+    }
+
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)

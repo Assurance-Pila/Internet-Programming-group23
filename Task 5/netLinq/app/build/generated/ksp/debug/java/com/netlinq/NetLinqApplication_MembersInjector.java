@@ -25,23 +25,35 @@ import javax.inject.Provider;
 public final class NetLinqApplication_MembersInjector implements MembersInjector<NetLinqApplication> {
   private final Provider<HiltWorkerFactory> workerFactoryProvider;
 
-  public NetLinqApplication_MembersInjector(Provider<HiltWorkerFactory> workerFactoryProvider) {
+  private final Provider<AppInitializer> appInitializerProvider;
+
+  public NetLinqApplication_MembersInjector(Provider<HiltWorkerFactory> workerFactoryProvider,
+      Provider<AppInitializer> appInitializerProvider) {
     this.workerFactoryProvider = workerFactoryProvider;
+    this.appInitializerProvider = appInitializerProvider;
   }
 
   public static MembersInjector<NetLinqApplication> create(
-      Provider<HiltWorkerFactory> workerFactoryProvider) {
-    return new NetLinqApplication_MembersInjector(workerFactoryProvider);
+      Provider<HiltWorkerFactory> workerFactoryProvider,
+      Provider<AppInitializer> appInitializerProvider) {
+    return new NetLinqApplication_MembersInjector(workerFactoryProvider, appInitializerProvider);
   }
 
   @Override
   public void injectMembers(NetLinqApplication instance) {
     injectWorkerFactory(instance, workerFactoryProvider.get());
+    injectAppInitializer(instance, appInitializerProvider.get());
   }
 
   @InjectedFieldSignature("com.netlinq.NetLinqApplication.workerFactory")
   public static void injectWorkerFactory(NetLinqApplication instance,
       HiltWorkerFactory workerFactory) {
     instance.workerFactory = workerFactory;
+  }
+
+  @InjectedFieldSignature("com.netlinq.NetLinqApplication.appInitializer")
+  public static void injectAppInitializer(NetLinqApplication instance,
+      AppInitializer appInitializer) {
+    instance.appInitializer = appInitializer;
   }
 }

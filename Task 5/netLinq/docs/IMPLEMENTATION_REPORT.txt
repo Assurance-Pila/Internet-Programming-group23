@@ -361,7 +361,11 @@ netLinq/
   docs/
     IMPLEMENTATION_REPORT.txt       (this file)
     UI_UX_DESIGN_DOCUMENT.md        (design choices, flows, report companion)
+    ER_DIAGRAM.md                   (Room + Supabase ER, sync flow, presentation notes)
     SUPABASE_SETUP.md
+    supabase/
+      schema.sql                    (full PostgreSQL schema + RLS + operator views)
+      migration_v1_linking.sql      (upgrade path for older Supabase projects)
   app/src/main/
     res/
       drawable/                     ic_netlinq_logo.png, adaptive icon XML
@@ -370,6 +374,7 @@ netLinq/
     java/com/netlinq/
       MainActivity.kt               App entry, theme mode, intent → prompt
       NetLinqApplication.kt         Hilt + WorkManager
+      AppInitializer.kt             Sync scheduler bootstrap on cold start
 
       ui/theme/                     Color, Type, Theme (light/dark)
 
@@ -407,30 +412,35 @@ netLinq/
 8. DATA AND BACKEND
 ================================================================================
 
-Room (offline-first) — database version 2:
+Room (offline-first) — database version 3:
   network_metrics
     signal, speed (latency_ms), type, device info, recorded_at, synced
 
   qoe_feedback
     five ratings, trigger_event, notes, recorded_at, synced
-    network_metric_id      — links rating to exact reading row
+    network_metric_id      — FK to network_metrics.id (optional, SET NULL on delete)
     metric_recorded_at     — timestamp of linked reading
     signal_strength_snapshot, latency_ms_snapshot — copied at rating time
 
 Feedback-to-network linking:
+  - Room v3: foreign key qoe_feedback.networkMetricId → network_metrics.id
   - Event prompts carry metric ID + snapshot from reading that triggered them
   - Manual Feedback tab submit links to latest reading at submit time
   - Notification tap preserves metric data via intent extras
-  - Sync payload includes linking fields for Supabase upload
+  - Sync payload includes linking fields + client_metric_id for Supabase join
 
 Anonymous device ID:
   UUID in DataStore → SHA-256 hash as device_hash on upload
 
 Supabase sync:
   Retrofit REST, WorkManager periodic sync (WiFi-only default, every 15 min)
+  AppInitializer reschedules sync on cold start when onboarding complete
+  Settings WiFi-only toggle reschedules WorkManager constraints
   Manual Sync button on dashboard
   7-day purge of synced local records
   Credentials in local.properties (not committed)
+  Schema: docs/supabase/schema.sql
+  ER diagram: docs/ER_DIAGRAM.md
 
 Notifications:
   Local Android notifications (not remote FCM push)
@@ -577,6 +587,13 @@ Open in Android Studio Split or Design view to review without a device.
 - Battery optimization tuning on diverse OEM devices
 - Commit netLinq folder to group git repository
 - Optional: splash screen with brand logo on cold start
+
+Backend sprint deliverables (DONE):
+- docs/ER_DIAGRAM.md — local Room + Supabase ER, sync flow, presentation talking points
+- docs/supabase/schema.sql — complete schema with linking columns and operator views
+- Room v3 FK: qoe_feedback → network_metrics
+- Supabase client_metric_id for cloud-side feedback-to-metric joins
+- AppInitializer + Settings WiFi-only reschedule for reliable background sync
 
 
 ================================================================================
